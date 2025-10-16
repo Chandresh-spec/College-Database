@@ -2,8 +2,8 @@ from django.db import models
 
 # Create your models here.
 class Student(models.Model):
-    name=models.CharField(max_length=10,blank=True)
-    gmail=models.EmailField(null=False,blank=True)
+    name=models.CharField(max_length=100,null=False,blank=False)
+    gmail=models.EmailField(null=False,blank=False)
     uucms_num=models.CharField(max_length=15,blank=False,null=False)
     rno=models.IntegerField(null=False)
     photo=models.ImageField(upload_to='studentphoto/',null=True)
