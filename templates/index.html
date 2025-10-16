@@ -52,6 +52,7 @@ Features:
       </div>
 
       <div class="card" style="margin-top:22px">
+         
         <table>
           <thead>
             <tr>
@@ -59,15 +60,17 @@ Features:
               <th>Email</th>
               <th>Courses</th>
               <th style="text-align:right">Actions</th>
+
             </tr>
           </thead>
           <tbody>
+            {% for student in  students %}
             <tr>
               <td>
-                <div class="name">Alice</div>
+                <div class="name">{{student.name}}</div>
                 <div class="sub">Profile: Mangalore • DOB: 2003-05-14</div>
               </td>
-              <td>alice@gmail.com</td>
+              <td>{{student.gmail}}</td>
               <td>
                 <div class="pill">Python Basics</div>
                 <div style="height:8px"></div>
@@ -75,32 +78,16 @@ Features:
               </td>
               <td style="text-align:right">
                 <div class="actions" style="justify-content:flex-end">
-                  <button class="pill">View</button>
+                  <a  class="pill" href="{%  url 'studentinfo' student.pk %}">view</a>
                   <button class="pill edit">Edit</button>
                 </div>
               </td>
             </tr>
-
-            <tr>
-              <td>
-                <div class="name">Bob</div>
-                <div class="sub">Profile: Udupi • DOB: 2004-02-10</div>
-              </td>
-              <td>bob@gmail.com</td>
-              <td>
-                <div class="pill">Python Basics</div>
-              </td>
-              <td style="text-align:right">
-                <div class="actions" style="justify-content:flex-end">
-                  <button class="pill">View</button>
-                  <button class="pill edit">Edit</button>
-                </div>
-              </td>
-            </tr>
-
+            {% endfor %}
             <!-- Add more rows or render via Django template loop -->
           </tbody>
         </table>
+      
       </div>
 
     </main>
