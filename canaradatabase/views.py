@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Student
+from django.db.models import  Q
 # Create your views here.
 from .forms import AddStudent
 def home(request):
@@ -49,4 +50,17 @@ def edit_student_view(request,pk):
     
     return render(request,'edit.html',{'form':form})
 
+
+
+
+
+def search_view(request):
+    query=request.GET.get('q')
+    if query:
+     students=Student.objects.filter(
+        Q(name__icontains=query) | Q(rno__icontains=query)
+    )
+    else:
+        students=Student.objects.all()
     
+    return render(request,'search.html',{'students':students})
