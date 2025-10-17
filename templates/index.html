@@ -1,42 +1,5 @@
-<!--
-Premium Student Management System
-Single-file HTML + CSS (no external libraries required)
-Features:
-- Modern color combo: deep navy background + teal to purple gradient accents
-- Glassmorphism cards, smooth micro-animations, subtle floating effect
-- Responsive layout (desktop/tablet/mobile)
-- Student list table, header nav, create button, search input
-- Comments inside code to guide integration into Django later
--->
-{% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-<title> canara college</title>
-<link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
-
-  <div class="container">
-
-    <div class="nav">
-      <div class="brand">
-        <div class="logo">CC</div>
-        <div>
-          <h1>Student Management</h1>
-          <p>Premium dashboard</p>
-        </div>
-      </div>
-
-      <div class="nav-links">
-        <a class="active" href="{% url 'home' %}">Students</a>
-        <a href="#">Courses</a>
-        <a href="#">Teachers</a>
-        <button class="btn ghost">Sign out</button>
-      </div>
-    </div>
-
-    <!-- MAIN COLUMN -->
+{% extends "layout.html" %}
+{% block content %}
     <main>
       <div class="header-card">
         <div class="header-left">
@@ -93,31 +56,8 @@ Features:
 
     </main>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="card" style="margin-bottom:16px">
-        <div class="stat">
-          <div>
-            <div class="num">24</div>
-            <p>Total Students</p>
-          </div>
-          <div style="margin-left:auto">
-            <div style="width:56px;height:56px;border-radius:12px;background:var(--accent-grad);display:grid;place-items:center;font-weight:800;color:white">S</div>
-          </div>
-        </div>
-      </div>
 
-      <div class="card">
-        <h3 style="margin:0 0 12px 0">Quick Actions</h3>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <button class="btn">Add Course</button>
-          <button class="btn ghost">Invite Teacher</button>
-          <button class="btn ghost">Export CSV</button>
-        </div>
-      </div>
-    </aside>
 
-  </div>
-
+{% endblock  %}
 </body>
 </html>

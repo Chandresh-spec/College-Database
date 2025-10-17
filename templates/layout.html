@@ -1,0 +1,93 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Canara College</title>
+  <link rel="stylesheet" href="{% static 'layout.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <nav class="nav">
+      <div class="brand">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Student Management</h1>
+          <p>Premium Dashboard</p>
+        </div>
+      </div>
+
+      <!-- Hamburger for mobile -->
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="nav-links">
+        <a class="active" href="{% url 'home' %}">
+          <i class="fas fa-users"></i>
+          Students
+        </a>
+        <a href="#">
+          <i class="fas fa-book"></i>
+          Courses
+        </a>
+        <a href="#">
+          <i class="fas fa-chalkboard-teacher"></i>
+          Teachers
+        </a>
+        <button class="btn ghost">
+          <i class="fas fa-sign-out-alt"></i>
+          Sign Out
+        </button>
+      </div>
+    </nav>
+
+  </div>
+
+<script>
+  // Mobile menu toggle with animation
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('toggle');
+    document.body.classList.toggle('menu-open');
+  });
+
+  // Smooth scroll and active link handling (if needed)
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        hamburger.click(); // Close mobile menu
+      }
+    });
+  });
+
+  // Add entrance animation on load
+  window.addEventListener('load', () => {
+    document.querySelector('.nav').style.opacity = '0';
+    document.querySelector('.nav').style.transform = 'translateY(-20px)';
+    setTimeout(() => {
+      document.querySelector('.nav').style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      document.querySelector('.nav').style.opacity = '1';
+      document.querySelector('.nav').style.transform = 'translateY(0)';
+    }, 100);
+  });
+</script>
+
+{% block content %}
+
+
+
+{% endblock  %}
+
+</body>
+</html>

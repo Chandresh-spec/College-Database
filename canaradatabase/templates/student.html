@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <img src="{{st.photo.url}}" alt="">
-    <h2>{{st.name}}</h2>
-    <p>{{st.gmail}}</p>
-    <p>{{st.rno}}</p>
-    <p>{{st.uucms_num}}</p>
-
-</body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+<div class="profile-wrapper">
+  <div class="profile-card">
+    <img src="{{ st.photo.url }}" alt="{{ st.name }}">
+    <h2>{{ st.name }}</h2>
+    <p><strong>Email:</strong> {{ st.gmail }}</p>
+    <p><strong>Roll Number:</strong> {{ st.rno }}</p>
+    <p><strong>UUCIMS Number:</strong> {{ st.uucms_num }}</p>
+  </div>
+</div>
+{% endblock %}
