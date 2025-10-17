@@ -30,3 +30,23 @@ def add_student_view(request):
         form=AddStudent()
     
     return render(request,'addstudent.html',{'form':form})
+
+
+
+
+def edit_student_view(request,pk):
+    pk=get_object_or_404(Student,pk=pk)
+    if request.method=='POST':
+        form=AddStudent(request.POST,request.FILES,instance=pk)
+
+        if form.is_valid():
+           form.save()
+           return redirect('home')
+        return render(request,'edit.html',{'form':form})
+    
+    else:
+        form=AddStudent(instance=pk)
+    
+    return render(request,'edit.html',{'form':form})
+
+    

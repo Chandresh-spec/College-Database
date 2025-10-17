@@ -29,7 +29,7 @@ Features:
       </div>
 
       <div class="nav-links">
-        <a class="active" href="#">Students</a>
+        <a class="active" href="{% url 'home' %}">Students</a>
         <a href="#">Courses</a>
         <a href="#">Teachers</a>
         <button class="btn ghost">Sign out</button>
@@ -79,7 +79,8 @@ Features:
               <td style="text-align:right">
                 <div class="actions" style="justify-content:flex-end">
                   <a  class="pill" href="{%  url 'studentinfo' student.pk %}">view</a>
-                  <button class="pill edit">Edit</button>
+                  <a class ="pill" href="{% url 'edit' student.pk %}">Edit</a>
+
                 </div>
               </td>
             </tr>
