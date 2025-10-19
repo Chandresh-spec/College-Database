@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<div class="teachers-section">
+  <div class="section-header">
+    <h2 class="section-title">Our Esteemed Faculty</h2>
+    <p class="section-subtitle">Experienced educators shaping the future</p>
+  </div>
+
+  <div class="branch-filters">
+    <button class="branch-btn active" data-branch="all">All Branches</button>
+    <button class="branch-btn" data-branch="BBA">BBA</button>
+    <button class="branch-btn" data-branch="BCA">BCA</button>
+    <!-- Add more buttons dynamically based on Courses in Django view -->
+  </div>
+
+  <div class="teachers-grid" id="teachersGrid">
+    <!-- Example teacher cards; replace with Django loop: {% for teacher in teachers %} -->
+    <div class="teacher-card" data-branch="BBA">
+      <div class="teacher-photo">
+        <i class="fas fa-user-graduate"></i>
+      </div>
+      <div class="teacher-info">
+        <h3 class="teacher-name">{{ teacher.t_name|default:"John Doe" }}</h3>
+        <div class="teacher-branch">BBA</div>
+        <div class="teacher-details">
+          <div class="detail-item">
+            <i class="fas fa-graduation-cap"></i>
+            <span>{{ teacher.qualification|default:"M.Com" }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-book"></i>
+            <span>{{ teacher.subjects|default:"Finance, Marketing" }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <span>{{ teacher.experience|default:"5" }} Years Experience</span>
+          </div>
+        </div>
+        <p class="teacher-about">{{ teacher.about|default:"Dedicated educator with a passion for business studies..."|truncatewords:30 }}</p>
+      </div>
+    </div>
+
+    <div class="teacher-card" data-branch="BBA">
+      <div class="teacher-photo">
+        <i class="fas fa-user-graduate"></i>
+      </div>
+      <div class="teacher-info">
+        <h3 class="teacher-name">Jane Smith</h3>
+        <div class="teacher-branch">BBA</div>
+        <div class="teacher-details">
+          <div class="detail-item">
+            <i class="fas fa-graduation-cap"></i>
+            <span>MBA</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-book"></i>
+            <span>HR, Operations</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <span>8 Years Experience</span>
+          </div>
+        </div>
+        <p class="teacher-about">Expert in human resource management and organizational behavior...</p>
+      </div>
+    </div>
+
+    <div class="teacher-card" data-branch="BCA">
+      <div class="teacher-photo">
+        <i class="fas fa-user-graduate"></i>
+      </div>
+      <div class="teacher-info">
+        <h3 class="teacher-name">Mike Johnson</h3>
+        <div class="teacher-branch">BCA</div>
+        <div class="teacher-details">
+          <div class="detail-item">
+            <i class="fas fa-graduation-cap"></i>
+            <span>MCA</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-book"></i>
+            <span>Programming, Databases</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <span>6 Years Experience</span>
+          </div>
+        </div>
+        <p class="teacher-about">Passionate about software development and emerging technologies...</p>
+      </div>
+    </div>
+
+    <!-- Add more cards as needed -->
+  </div>
+</div>
+
+<script>
+  // Branch filtering functionality
+  const branchBtns = document.querySelectorAll('.branch-btn');
+  const teacherCards = document.querySelectorAll('.teacher-card');
+
+  branchBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active button
+      branchBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const selectedBranch = btn.dataset.branch;
+      const grid = document.getElementById('teachersGrid');
+
+      // Animate out all cards
+      teacherCards.forEach(card => {
+        card.classList.add('hidden');
+      });
+
+      setTimeout(() => {
+        teacherCards.forEach(card => {
+          if (selectedBranch === 'all' || card.dataset.branch === selectedBranch) {
+            card.classList.remove('hidden');
+            // Animate in
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.transition = 'all 0.3s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 50);
+          }
+        });
+      }, 300);
+
+      // Adjust grid columns if fewer cards (optional)
+      if (selectedBranch !== 'all') {
+        grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(350px, 1fr))';
+      }
+    });
+  });
+
+  // Entrance animation for cards on load
+  window.addEventListener('load', () => {
+    teacherCards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        card.style.transition = 'all 0.5s ease';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, index * 100);
+    });
+  });
+</script>
+
+
+{% endblock %}

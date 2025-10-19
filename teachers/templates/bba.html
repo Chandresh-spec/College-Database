@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+
+<div class="teachers-section">
+  <div class="section-header">
+    <h2 class="section-title">Our Dedicated Faculty</h2>
+    <p class="section-subtitle">Meet the experts guiding your academic journey</p>
+  </div>
+
+  <div class="branch-filters">
+    <button class="branch-btn active" data-branch="all">BBA</button>
+    {% for course in courses %}
+      <button class="branch-btn" data-branch="{{ course.course_name }}">{{ course.course_name }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="teachers-grid" id="teachersGrid">
+    {% for teacher in items %}
+      <div class="teacher-card" data-branch="{{ teacher.branch.course_name }}">
+        <div class="teacher-image-container">
+          {% if teacher.t_image %}
+            <img src="{{ teacher.t_image.url }}" alt="{{ teacher.t_name }}" class="teacher-image">
+          {% else %}
+            <div class="teacher-placeholder">
+              <i class="fas fa-user-tie"></i>
+            </div>
+          {% endif %}
+        </div>
+        <div class="teacher-info">
+          <h3 class="teacher-name">{{ teacher.t_name|default:"Unnamed Teacher" }}</h3>
+          <div class="teacher-branch">{{ teacher.branch.course_name }}</div>
+          <div class="teacher-details">
+            <div class="detail-item">
+              <i class="fas fa-graduation-cap"></i>
+              <span>{{ teacher.qualification|default:"Not specified" }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-book-open"></i>
+              <span>{{ teacher.subjects|default:"Not specified" }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-briefcase"></i>
+              <span>{{ teacher.experience|default:0 }} Years Experience</span>
+            </div>
+            {% if teacher.address %}
+              <div class="detail-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ teacher.address|truncatewords:5 }}</span>
+              </div>
+            {% endif %}
+          </div>
+          <p class="teacher-about">{{ teacher.about|default:"No description available."|truncatewords:40 }}</p>
+          <span class="read-more" onclick="this.previousElementSibling.style.height='auto'; this.style.display='none';">Read more...</span>
+          <a href="#" class="view-more">View More</a>
+        </div>
+      </div>
+    {% empty %}
+      <div class="teacher-card" style="text-align: center; padding: 40px;">
+        <i class="fas fa-users" style="font-size: 4rem; color: #bdc3c7; margin-bottom: 20px;"></i>
+        <p style="font-size: 1.2rem; color: #7f8c8d;">No teachers available at the moment.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  // Branch filtering with animation
+  const branchBtns = document.querySelectorAll('.branch-btn');
+  const teacherCards = document.querySelectorAll('.teacher-card');
+
+  branchBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      branchBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const selectedBranch = btn.dataset.branch;
+
+      teacherCards.forEach(card => {
+        card.classList.add('hidden');
+      });
+
+      setTimeout(() => {
+        let delay = 0;
+        teacherCards.forEach(card => {
+          if (selectedBranch === 'all' || card.dataset.branch === selectedBranch) {
+            card.classList.remove('hidden');
+            card.style.animation = `slideInUp 0.6s ease-out ${delay}s forwards`;
+            delay += 0.1;
+          }
+        });
+      }, 400);
+    });
+  });
+
+  // Navbar animation enhancement (if integrated)
+  window.addEventListener('load', () => {
+    const nav = document.querySelector('.nav');
+    nav.style.animation = 'fadeInDown 0.8s ease-out';
+  });
+</script>
+{% endblock %}
