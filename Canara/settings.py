@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'canaradatabase',
     'Course',
+    'teachers',
 ]
 
 MIDDLEWARE = [
