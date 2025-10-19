@@ -7,7 +7,7 @@ class Courses(models.Model):
         ('BBA', 'BBA'),
     ]
 
-    name = models.CharField(max_length=3, choices=COURSE_CHOICES)
+    course_name = models.CharField(max_length=3, choices=COURSE_CHOICES)
     year = models.CharField(
         max_length=20,
         choices=[
@@ -21,4 +21,4 @@ class Courses(models.Model):
     sub3 = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.name} - {self.year}"
+        return f"{self.course_name} - {self.year}"

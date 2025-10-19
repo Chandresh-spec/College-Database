@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for bca  in bca_courses %}
+<p>{{bca.course_name}}</p>
+<p>{{bca.year}}</p>
+<p>{{bca.sub1}}</p>
+<p>{{bca.sub2}}</p>
+<p>{{bca.sub3}}</p>
+
+
+
+
+{% endfor %}
+{% endblock  %}
