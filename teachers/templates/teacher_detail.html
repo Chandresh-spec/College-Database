@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'detail.css' %}">
+{% endblock  %}
+{% block content %}
+
+
+
+<div class="teacher-detail-section">
+
+  <!-- Page 1: Profile Overview -->
+  <section class="teacher-profile fade-in">
+    <div class="teacher-photo">
+      {% if teacher.t_image %}
+        <img src="{{ teacher.t_image.url }}" alt="{{ teacher.t_name }}">
+      {% else %}
+        <i class="fas fa-user-tie"></i>
+      {% endif %}
+    </div>
+
+    <div class="teacher-summary">
+      <h2 class="teacher-name">{{ teacher.t_name }}</h2>
+      <p class="teacher-branch">{{ teacher.branch.course_name }}</p>
+      <p class="teacher-qualification">
+        <i class="fas fa-graduation-cap"></i> {{ teacher.qualification }}
+      </p>
+      <p class="teacher-subjects">
+        <i class="fas fa-book-open"></i> {{ teacher.subjects }}
+      </p>
+      <p class="teacher-experience">
+        <i class="fas fa-briefcase"></i> {{ teacher.experience }} Years of Experience
+      </p>
+
+      <a href="#details" class="next-section-btn">View More ↓</a>
+    </div>
+  </section>
+
+  <!-- Page 2: Detailed Information -->
+  <section id="details" class="teacher-details fade-in">
+    <h3>About {{ teacher.t_name }}</h3>
+    <p class="teacher-about">{{ teacher.about|default:"No description available." }}</p>
+
+    <div class="teacher-extra">
+      <div class="info-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <strong>Address:</strong> {{ teacher.address|default:"Not provided" }}
+      </div>
+
+      <div class="info-item">
+        <i class="fas fa-envelope"></i>
+        <strong>Email:</strong> {{ teacher.email|default:"N/A" }}
+      </div>
+
+      <div class="info-item">
+        <i class="fas fa-clock"></i>
+        <strong>Joined:</strong> {{ teacher.joined_date|date:"F Y"|default:"Not specified" }}
+      </div>
+    </div>
+
+    <a href="{% url 'Teacher' 'all' %}" class="back-btn">← Back to Faculty</a>
+  </section>
+
+</div>
+
+<script>
+  // Smooth scrolling for "View More"
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Fade-in animation on scroll
+  const elements = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  });
+  elements.forEach(el => observer.observe(el));
+</script>
+
+{% endblock %}

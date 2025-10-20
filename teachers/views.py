@@ -1,19 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import Teacher
-# Create your views here.
+from Course.models import Courses
 
-def all_branch_view(request):
-   items=Teacher.objects.all()
-   return render(request,'all.html',{'items':items})
+def teacher_view(request, branch):
+    # ✅ Get distinct course names only (not whole objects)
+    courses = Courses.objects.values_list('course_name', flat=True).distinct()
+
+    # ✅ Handle filtering safely
+    if branch.lower() == "all":
+        teachers = Teacher.objects.all()
+    else:
+        teachers = Teacher.objects.filter(branch__course_name__iexact=branch)
+
+    # ✅ Convert queryset to a sorted list (removes duplicates manually if needed)
+    unique_courses = sorted(set(courses))
+
+    return render(request, 'all.html', {
+        'teachers': teachers,
+        'courses': unique_courses,   # Use the unique cleaned list
+        'selected_branch': branch
+    })
 
 
 
-def Bca_teacher_view(request):
-   items=Teacher.objects.filter(branc='bcm')
-   return render(request,'bca.html',{'items':items})
 
-def BBA_teacher_view(request,branch):
-   items=Teacher.objects.filter(branch=branch)
-   return render(request,'bba.html',{'items':items})
+
+def teacher_detail_view(request,pk):
+    teacher=get_object_or_404(Teacher,pk=pk)
+    return render(request,'teacher_detail.html',{'teacher':teacher})
+
 
 
