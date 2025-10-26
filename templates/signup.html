@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <div class="form-card">
+        <!-- Gradient top bar -->
+        <div class="form-header">
+            <h2>Create Account</h2>
+            <p>Join us and start managing students right away.</p>
+        </div>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <!-- Django form rendered as paragraphs -->
+            {{ form.as_p }}
+
+            <!-- Submit button (styled with .btn) -->
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+
+        <!-- Login link -->
+        <div class="form-footer">
+            <p>Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

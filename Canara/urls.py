@@ -25,4 +25,5 @@ urlpatterns = [
     path('cd/',include('canaradatabase.urls')),
     path('course/',include('Course.urls')),
     path('teacher/',include('teachers.urls')),
+    path('accounts/',include('user_auth.urls')),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

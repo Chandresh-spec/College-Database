@@ -1,7 +1,9 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Teacher
 from Course.models import Courses
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def teacher_view(request, branch):
     # ✅ Get distinct course names only (not whole objects)
     courses = Courses.objects.values_list('course_name', flat=True).distinct()
@@ -23,8 +25,7 @@ def teacher_view(request, branch):
 
 
 
-
-
+@login_required
 def teacher_detail_view(request,pk):
     teacher=get_object_or_404(Teacher,pk=pk)
     return render(request,'teacher_detail.html',{'teacher':teacher})
