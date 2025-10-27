@@ -2316,3 +2316,51 @@ table {
     .form-header h2 { font-size: 1.7rem; }
     .form-card { padding: 25px 15px; }
 }
+
+
+
+
+/* profile */
+
+
+/* Profile Link Fix */
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  opacity: 0.9;
+}
+
+/* Hover & Active Effects Same as Other Nav Links */
+.nav-links li a:hover {
+  color: #ffd700;
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.nav-links li a:hover i {
+  transform: scale(1.2);
+}
+
+.nav-links li a.active {
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+}
+
+.nav-links li a.active::after {
+  width: 80%;
+  background: linear-gradient(90deg, #ffd700, #ffed4e);
+}
