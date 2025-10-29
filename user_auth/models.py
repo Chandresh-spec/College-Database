@@ -10,7 +10,7 @@ class Profile(models.Model):
     phone=models.CharField(max_length=10,blank=True,null=True)
     bio=models.TextField(default="Hello! I'm new  here ",blank=True)
     profile_img=models.ImageField(upload_to='profile_pic',null=True,blank=True)
-
+    gmail=models.EmailField(default="chandu@gmail.com",null=True,blank=True)
     city=models.CharField(max_length=10,blank=True,null=True)
     dob=models.DateTimeField(blank=True,null=True)
     updated_at=models.DateTimeField(auto_now=True)

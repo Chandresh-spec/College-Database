@@ -2,30 +2,31 @@
 {% load static %}
 {% block content %}
 
-<div class="profile-container" style="max-width: 600px; margin: 50px auto; background: #111; padding: 20px; border-radius: 10px; color: #fff;">
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
 
-    <div class="image-section" style="text-align: center; margin-bottom: 20px;">
+<div class="profile-container">
+
+    <div class="image-section">
         {% if profile.profile_img %}
-            <img src="{{ profile.profile_img.url }}" alt="Profile Picture" style="width:150px; height:150px; border-radius:50%; object-fit:cover;">
+            <img src="{{ profile.profile_img.url }}" alt="Profile Picture" class="profile-pic">
         {% else %}
-            <img src="#" alt="Default Profile Picture" style="width:150px; height:150px; border-radius:50%; object-fit:cover;">
+            <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" class="profile-pic">
         {% endif %}
     </div>
 
-    <h2 style="text-align: center;">{{ profile.user.username }}</h2>
-    <p style="text-align: center; font-size: 14px; opacity: 0.7;">Joined: {{ profile.user.date_joined|date:'M d, Y' }}</p>
+    <h2 class="username">{{ profile.user.username }}</h2>
+    <p class="joined-date">Joined: {{ profile.user.date_joined|date:'M d, Y' }}</p>
 
-    
-    <div class="profile-info" style="margin-top: 20px;">
+    <div class="profile-info">
         <p><strong>Full Name:</strong> {{ profile.full_name }}</p>
-        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p><strong>Email:</strong> {{ profile.gmail }}</p>
         <p><strong>Phone:</strong> {{ profile.phone }}</p>
         <p><strong>City:</strong> {{ profile.city }}</p>
         <p><strong>Bio:</strong> {{ profile.bio }}</p>
     </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{% url 'edit' %}" class="btn" style="padding: 10px 20px; background: #0066ff; color:#fff; border-radius:5px; text-decoration:none;">Edit Profile</a>
+    <div class="edit-btn-container">
+        <a href="{% url 'edit' %}" class="edit-btn">Edit Profile</a>
     </div>
 
 </div>

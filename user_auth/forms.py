@@ -29,7 +29,7 @@ class SignupForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model=Profile
-        fields=('full_name','bio','phone','profile_img','city')
+        fields=('full_name','bio','phone','profile_img','city','gmail')
 
     
 
