@@ -21,12 +21,11 @@
         <p><strong>Email:</strong> {{ profile.user.email }}</p>
         <p><strong>Phone:</strong> {{ profile.phone }}</p>
         <p><strong>City:</strong> {{ profile.city }}</p>
-        <p><strong>Date of Birth:</strong> {{ profile.dob|date:"M d, Y" }}</p>
         <p><strong>Bio:</strong> {{ profile.bio }}</p>
     </div>
 
     <div style="text-align: center; margin-top: 20px;">
-        <a href="#" class="btn" style="padding: 10px 20px; background: #0066ff; color:#fff; border-radius:5px; text-decoration:none;">Edit Profile</a>
+        <a href="{% url 'edit' %}" class="btn" style="padding: 10px 20px; background: #0066ff; color:#fff; border-radius:5px; text-decoration:none;">Edit Profile</a>
     </div>
 
 </div>

@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Profile
@@ -59,13 +60,14 @@ def logout_views(request):
 
 
 
-
+@login_required
 def profile_view(request):
     profile=Profile.objects.get(user=request.user)
     return render(request,'profile.html',{'profile':profile})
 
 
 
+@login_required
 def edit_profile(request):
     profile=request.user.profile
     if request.method=='POST':

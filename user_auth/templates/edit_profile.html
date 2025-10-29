@@ -1,7 +1,15 @@
 {% extends "layout.html" %}
+{% load static %}
+
 {% block content %}
+<div class="container" style="max-width: 600px; margin-top: 40px;">
+    <h2 class="text-center">Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
 
-
-
-
-{% endblock  %}
+        <button type="submit" class="btn btn-primary mt-3">Update</button>
+    </form>
+</div>
+{% endblock %}
