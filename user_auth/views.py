@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Profile
 from .forms import SignupForm,ProfileForm
+from django.contrib.auth.models import Group
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView
+from django.urls import reverse_lazy
 # Create your views here.
 
 def signup_views(request):
@@ -16,12 +20,12 @@ def signup_views(request):
             login(request,user)
             return  redirect('home')
         
-        return render(request,'signup.html',{'form':form})
+        return render(request,'accounts/signup.html',{'form':form})
     
 
     else:
         form=SignupForm()
-        return render(request,'signup.html',{'form':form})
+        return render(request,'accounts/signup.html',{'form':form})
     
 
 
@@ -42,13 +46,13 @@ def login_view(request):
             if user:
                 login(request,user)
                 return redirect('home')
-        return render(request,'login.html',{'form':form})
+        return render(request,'accounts/login.html',{'form':form})
     
 
     else:
         form=AuthenticationForm()
     
-    return render(request,'login.html',{'form':form})
+    return render(request,'accounts/login.html',{'form':form})
 
 
 
@@ -60,11 +64,16 @@ def logout_views(request):
 
 
 
-@login_required
-def profile_view(request):
-    profile=Profile.objects.get(user=request.user)
-    return render(request,'profile.html',{'profile':profile})
+class ProfileDetail(LoginRequiredMixin,DetailView):
+    model=Profile
+    template_name='profile.html'
+    context_object_name='profile'
 
+    login_url=reverse_lazy('login')
+
+
+    def get_object(self):
+        return self.request.user.profile
 
 
 @login_required

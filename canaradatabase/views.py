@@ -3,52 +3,38 @@ from .models import Student
 from django.db.models import  Q
 # Create your views here.
 from .forms import AddStudent
-def home(request):
-    students=Student.objects.all()
-    return render(request, 'index.html',{'students':students})
+from django.views.generic import ListView,DetailView,CreateView,UpdateView
+from django.urls import reverse_lazy
+
+class ListStudnet_view(ListView):
+    model=Student
+    template_name='index.html'
+    context_object_name='students'
 
 
 
-def student_view(request,pk):
-    st=get_object_or_404(Student,pk=pk)
-
-    return render(request,'student.html',{'st':st})
-
-
-
-
-
-def add_student_view(request):
-    if request.method=='POST':
-        form=AddStudent(request.POST,request.FILES)
-
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-        return render(request,'addstudent.html',{'form':form})
-    
-    else:
-        form=AddStudent()
-    
-    return render(request,'addstudent.html',{'form':form})
+class StudentPage_view(DetailView):
+    model=Student
+    template_name='student.html'
+    context_object_name='st'
 
 
 
 
-def edit_student_view(request,pk):
-    pk=get_object_or_404(Student,pk=pk)
-    if request.method=='POST':
-        form=AddStudent(request.POST,request.FILES,instance=pk)
 
-        if form.is_valid():
-           form.save()
-           return redirect('home')
-        return render(request,'edit.html',{'form':form})
-    
-    else:
-        form=AddStudent(instance=pk)
-    
-    return render(request,'edit.html',{'form':form})
+class Student_create_view(CreateView):
+    model=Student
+    template_name='addstudent.html'
+    fields=['name','course_name','gmail','uucms_num','rno','photo']
+    success_url=reverse_lazy('home')
+
+
+
+class Update_student_view(UpdateView):
+    model=Student
+    template_name='edit.html'
+    fields=['name','course_name','gmail','uucms_num','rno','photo']
+    success_url=reverse_lazy('home')
 
 
 
