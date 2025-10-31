@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+<p> do u want  logout?</p>
+<form method ='POST',action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Submit</button>
+</form>
+<p>cancel <a href="{% url 'home' %}"></a></p>
+{% endblock  %}

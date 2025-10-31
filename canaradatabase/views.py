@@ -40,13 +40,17 @@ class Update_student_view(UpdateView):
 
 
 
-def search_view(request):
-    query=request.GET.get('q')
-    if query:
-     students=Student.objects.filter(
-        Q(name__icontains=query) | Q(rno__icontains=query)
-    )
-    else:
-        students=Student.objects.all()
-    
-    return render(request,'search.html',{'students':students})
+class Search_Students(ListView):
+    model=Student
+    template_name='search.html'
+    context_object_name='students'
+
+
+
+    def get_queryset(self):
+        query=self.request.GET.get('q')
+
+        if query:
+            return Student.objects.filter(Q(name__icontains=query) |Q(rno__icontains=query))
+        
+        return Student.objects.all()

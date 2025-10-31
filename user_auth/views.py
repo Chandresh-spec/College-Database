@@ -7,52 +7,22 @@ from .models import Profile
 from .forms import SignupForm,ProfileForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView
+from django.views.generic import DetailView,CreateView,UpdateView
+from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 # Create your views here.
-
-def signup_views(request):
-    if request.method=='POST':
-        form=SignupForm(request.POST)
-
-        if form.is_valid():
-            user=form.save()
-            login(request,user)
-            return  redirect('home')
-        
-        return render(request,'accounts/signup.html',{'form':form})
-    
-
-    else:
-        form=SignupForm()
-        return render(request,'accounts/signup.html',{'form':form})
-    
+class Signup_view(CreateView):
+    model=User
+    form_class=SignupForm
+    template_name='accounts/signup.html'
+    success_url=reverse_lazy('home')
 
 
 
-def login_view(request):
-    if request.method=='POST':
-        form=AuthenticationForm(request,data=request.POST)
+class CustomLogin_view(LoginView):
+    template_name='accounts/login.html'
+    redirect_authenticated_user=True
 
-        if form.is_valid():
-
-            username=form.cleaned_data.get('username')
-            password=form.cleaned_data.get('password')
-
-
-            user=authenticate(username=username,password=password)
-
-
-            if user:
-                login(request,user)
-                return redirect('home')
-        return render(request,'accounts/login.html',{'form':form})
-    
-
-    else:
-        form=AuthenticationForm()
-    
-    return render(request,'accounts/login.html',{'form':form})
 
 
 
@@ -76,19 +46,14 @@ class ProfileDetail(LoginRequiredMixin,DetailView):
         return self.request.user.profile
 
 
-@login_required
-def edit_profile(request):
-    profile=request.user.profile
-    if request.method=='POST':
-        form=ProfileForm(request.POST,request.FILES,instance=profile)
 
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-        
-        return render(request,'edit.html',{'form':form})
+class Update_Profile_view(UpdateView):
+    model=Profile
+    template_name='edit.html'
+    fields=['full_name','phone','bio','profile_img','gmail','city']
+    success_url=reverse_lazy('profile')
+
     
-
-    else:
-        form=ProfileForm(instance=profile)
-    return render(request,'edit.html',{'form':form})
+    def get_object(self,queryset=None):
+        return self.request.user.profile
+    

@@ -3,32 +3,51 @@ from .models import Teacher
 from Course.models import Courses
 from django.contrib.auth.decorators import login_required
 
-@login_required
-def teacher_view(request, branch):
-    # ✅ Get distinct course names only (not whole objects)
-    courses = Courses.objects.values_list('course_name', flat=True).distinct()
-
-    # ✅ Handle filtering safely
-    if branch.lower() == "all":
-        teachers = Teacher.objects.all()
-    else:
-        teachers = Teacher.objects.filter(branch__course_name__iexact=branch)
-
-    # ✅ Convert queryset to a sorted list (removes duplicates manually if needed)
-    unique_courses = sorted(set(courses))
-
-    return render(request, 'all.html', {
-        'teachers': teachers,
-        'courses': unique_courses,   # Use the unique cleaned list
-        'selected_branch': branch
-    })
+from django.views.generic import ListView,DetailView
 
 
+class Teacher_view(ListView):
+    model=Teacher
+    template_name='all.html'
+    context_object_name='teachers'
 
-@login_required
-def teacher_detail_view(request,pk):
-    teacher=get_object_or_404(Teacher,pk=pk)
-    return render(request,'teacher_detail.html',{'teacher':teacher})
+
+    def get_queryset(self):
+
+        branch=self.kwargs.get('branch')
+
+        if  branch and branch.lower()=='all':
+            return Teacher.objects.all()
+        
+        else:
+            return Teacher.objects.filter(branch__course_name__iexact=branch)
+    
+
+
+    def get_context_data(self,**kwargs):
+            context = super().get_context_data(**kwargs)
+
+            courses=Courses.objects.values_list('course_name',flat=True).distinct()
+
+            context['courses']=sorted(set(courses))
+
+            context['selected_branch']=self.kwargs.get('branch')
+
+            return context
+            
+            
+        
+       
+
+        
+
+
+
+class Teacher_detail_view(DetailView):
+    model=Teacher
+    template_name='teacher_detail.html'
+    context_object_name='teacher'
+    
 
 
 
