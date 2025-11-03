@@ -22,6 +22,14 @@ class SignupForm(UserCreationForm):
             raise forms.ValidationError("email already exists")
         
         return email
+    
+
+    def save(self, commit=True):  # ✅ this ensures email is stored in DB
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
 
 
 

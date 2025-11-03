@@ -2,7 +2,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .models import Profile
-
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 
@@ -36,11 +37,21 @@ def sync_gmail_to_user(sender,instance,created,**kwargs):
            user.save(update_fields=['email'])
         
 
-@receiver(post_save,sender=User)
 
-def sync_user_to_gmail(sender,instance,created,**kwargs):
-     profile=instance.profile
 
-     if instance.email and instance.email!=profile.gmail:
-          profile.gmail=instance.email
-          profile.save(update_fields=['gmail'])
+
+
+
+
+@receiver(post_save, sender=User)
+def send_welcome_email(sender, instance, created, **kwargs):
+    if created:
+        print(f"Sending email to: {instance.email}")
+        send_mail(
+            subject="Welcome!",
+            message=f"Hi {instance.username}, aap gay ho",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[instance.email],
+            fail_silently=False,
+        )
+

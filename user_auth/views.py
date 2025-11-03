@@ -9,19 +9,36 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView,CreateView,UpdateView
 from django.contrib.auth.views import LoginView
+from django.conf import settings 
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
 # Create your views here.
+
+
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from django.contrib.auth.models import User
+from .forms import SignupForm
+
 class Signup_view(CreateView):
-    model=User
-    form_class=SignupForm
-    template_name='accounts/signup.html'
-    success_url=reverse_lazy('home')
+    model = User
+    form_class = SignupForm
+    template_name = 'accounts/signup.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        user = form.save()  # ✅ ensures your form's save() method is called
+        return super().form_valid(form)
 
 
 
 class CustomLogin_view(LoginView):
     template_name='accounts/login.html'
     redirect_authenticated_user=True
+    success_url=reverse_lazy('home')
+
+
+
 
 
 
