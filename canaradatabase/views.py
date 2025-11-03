@@ -83,31 +83,16 @@ def search_paginator(request):
         
     
 
+class List_Students(ListView):
+    model=Student
+    template_name='index.html'
+    context_object_name='students'
+    paginate_by=4
 
 
-def post_list(request):
-    post=Student.objects.all()
-
-    paginator=Paginator(post,4)
-
-    page_number=request.GET.get('page',1)
-
-
-    try:
-        page_obj=paginator.page(page_number)
-
-    except PageNotAnInteger:
-        page_obj=paginator.page(1)
-    
-    except EmptyPage:
-        page_obj=paginator.page(paginator.num_pages)
-
-
-    
-    context={
-        'page_obj':page_obj,
-        'paginator':paginator,
-    }
-
-
-    return render(request,'index.html',context)
+    def get_queryset(self):
+        query=self.request.GET.get('q')
+        if query:
+            return Student.objects.filter(Q(name__icontains=query)|Q(rno__icontains=query))
+        
+        return Student.objects.all()
