@@ -8,17 +8,22 @@ from django.urls import reverse_lazy
 
 from django.core.paginator  import Paginator,EmptyPage,PageNotAnInteger
 
-# class ListStudnet_view(ListView):
-    # model=Student
-    # template_name='index.html'
-    # context_object_name='students'
-# 
+class ListStudnet_view(ListView):
+    model=Student
+    template_name='index.html'
+    context_object_name='students'
+    paginate_by=4
+
+
+
 
 
 class StudentPage_view(DetailView):
     model=Student
     template_name='student.html'
     context_object_name='st'
+
+
 
 
 
@@ -83,7 +88,7 @@ def search_paginator(request):
         
     
 
-class List_Students(ListView):
+class Search_List(ListView):
     model=Student
     template_name='index.html'
     context_object_name='students'
@@ -96,3 +101,10 @@ class List_Students(ListView):
             return Student.objects.filter(Q(name__icontains=query)|Q(rno__icontains=query))
         
         return Student.objects.all()
+    
+
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        context['query']=self.request.GET.get('q',"")
+        return context
+    

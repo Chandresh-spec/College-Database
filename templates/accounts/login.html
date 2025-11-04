@@ -11,9 +11,10 @@
             <h2>Create Account</h2>
             <p>Join us and start managing students right away.</p>
         </div>
+        {% csrf_token %}
 
         <form method="POST" novalidate>
-            {% csrf_token %}
+       
 
             <!-- Django form rendered as paragraphs -->
             {{ form.as_p }}

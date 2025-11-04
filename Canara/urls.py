@@ -26,4 +26,9 @@ urlpatterns = [
     path('course/',include('Course.urls')),
     path('teacher/',include('teachers.urls')),
     path('accounts/',include('user_auth.urls')),
+   
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+
+handler404="Canara.views.custom_404"
+handler403="Canara.views.custom_403"
